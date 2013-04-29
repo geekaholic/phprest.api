@@ -11,10 +11,11 @@ list($controller, $action) = preg_split('!/!', preg_replace('!.*index.php[^a-z]*
 $controller = ($controller) ? $controller : 'main';
 $action = ($action) ? $action : 'index';
 
-// Include base controller
+// Include base model & controller
+require('system/models/model.php');
 require('system/controllers/controller.php');
 
-// include controller
+// Include controller
 $inc_file = "controllers/${controller}.php";
 if (file_exists("$inc_file")) {
 	include($inc_file);
