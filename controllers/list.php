@@ -6,6 +6,9 @@ Class ListController extends Controller {
 
 	function __construct() {
 
+		// Call base class constructor
+		parent::__construct($this->lists);
+
 		// Load list model
 		$this->load_model('list_model');
 
@@ -38,7 +41,7 @@ Class ListController extends Controller {
 
 		// Create a new list
 		$list = new ListModel();
-		$task->set($data);
+		$list->set($data);
 
 		// Save list to lists array
 		array_push($this->lists, $list);
@@ -61,14 +64,15 @@ Class ListController extends Controller {
 		$due_date = $this->sanitize($this->post('due_date'));
 		
 		$idx = $this->find($id);
-		if ($idx) {
+		if ($idx === false) {
+			$this->print_error('Invalid List');
+			return false;
+		} else {
 			// Perform update
 			$this->lists[$idx]->set(array('id' => $id, 'name' => $name, 'due_date' => $due_date));
 
 			// Return updated
 			echo json_encode($this->lists[$idx]);
-		} else {
-			$this->print_error('List not found');
 		}
 	}
 
@@ -78,27 +82,30 @@ Class ListController extends Controller {
 		$id = (int) $this->sanitize($this->post('id'));
 
 		$idx = $this->find($id);
-		if ($idx) {
+		if ($idx === false) {
+			$this->print_error('Invalid List');
+			return false;
+		} else {
 			// Return deleted
 			echo json_encode($this->lists[$idx]);
 
 			// Perform delete
 			unset($this->lists[$idx]);
 
-			// Vacuum array for holes
+			// Vacuum array to reindex
 			$this->lists = array_values($this->lists);
-		} else {
-			$this->print_error('List not found');
 		}
 	}
 
 	// Find list from lists
 	function find($id) {
-		for ($i=0; $i < count($this->lists); $i++) {
-			if (isset($this->lists[$i]) && $this->lists[$i]->id == $id) {
-				return $i;
+
+		foreach ($this->lists as $idx => $obj) {
+			if ($obj->id == $id) {
+				return $idx;
 			}
 		}
+
 		return false;
 	}
 

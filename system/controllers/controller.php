@@ -2,9 +2,24 @@
 
 class Controller {
 
-	// Constructor
-	function __construct() {
+	// Store controller object array
+	var $obj_arr;
 
+	// Constructor
+	function __construct($obj_arr) {
+		$this->obj_arr = &$obj_arr;
+	}
+
+	// Find list from lists
+	function find($id) {
+
+		foreach ($this->obj_arr as $idx => $obj) {
+			if ($obj->id == $id) {
+				return $idx;
+			}
+		}
+
+		return false;
 	}
 
 	// Utility function to load model

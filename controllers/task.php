@@ -2,15 +2,25 @@
 
 Class TaskController extends Controller {
 
-	var $tasks;
+	var $tasks,
+		$lists;
 
 	function __construct() {
 
-		// Load task model
+		// Load task & list models
 		$this->load_model('task_model');
+		$this->load_model('list_model');
 
 		// Enable session support
 		session_start();
+
+		// Restore saved list or can't continue
+ 		if (!(isset($_SESSION['lists']))) {
+			$this->print_error('No lists found');
+			exit;
+		}
+
+		$this->lists = &$_SESSION['lists'];
 
 		// Restore saved task or create new
  		if (!(isset($_SESSION['tasks']))) {
@@ -42,6 +52,13 @@ Class TaskController extends Controller {
 		// Check required
 		if (!$data['name'] || !$data['list_id']) {
 			$this->print_error('Required fields name or list_id missing');
+			return false;
+		}
+
+		// Check if list_id exists
+		if (!$this->exists_list($data['list_id'])) {
+			$this->print_error('Invalid List');
+			return false;
 		}
 
 		// Create a new task
@@ -76,7 +93,8 @@ Class TaskController extends Controller {
 			// Return updated
 			echo json_encode($this->tasks[$idx]);
 		} else {
-			$this->print_error('Task not found');
+			$this->print_error('Invalid Task');
+			return false;
 		}
 	}
 
@@ -93,10 +111,11 @@ Class TaskController extends Controller {
 			// Perform delete
 			unset($this->tasks[$idx]);
 
-			// Vacuum array for holes
+			// Vacuum array to reindex
 			$this->tasks = array_values($this->tasks);
 		} else {
-			$this->print_error('Task not found');
+			$this->print_error('Invalid Task');
+			return false;
 		}
 	}
 
@@ -109,6 +128,17 @@ Class TaskController extends Controller {
 		}
 		return false;
 	}
+
+	// Check if list exists and return it
+	function exists_list($id) {
+		for ($i=0; $i < count($this->lists); $i++) {
+			if (isset($this->lists[$i]) && $this->lists[$i]->id == $id) {
+				return $i;
+			}
+		}
+		return false;
+	}
+
 
 }
 
