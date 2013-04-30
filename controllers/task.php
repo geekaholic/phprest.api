@@ -68,6 +68,21 @@ Class TaskController extends Controller {
 		echo json_encode($task);
 	}
 
+	// Read task
+	function readAction() {
+
+		// Read optional list_id
+		$list_id = (int) $this->sanitize($this->post('list_id'));
+
+		if ($list_id && $this->exists_list($list_id)) {
+			// Filter by list_id
+			echo json_encode($this->filter_tasks($list_id));
+		} else {
+			// Return all tasks
+			echo json_encode($this->tasks);
+		}
+	}
+
 	// Update task
 	function updateAction() {
 
@@ -210,6 +225,17 @@ Class TaskController extends Controller {
 		return false;
 	}
 
+	// Return tasks of a given list
+	function filter_tasks($list_id) {
+		$filtered_tasks = array();
 
+		foreach ($this->tasks as $idx => $obj) {
+			if ($obj->list_id == $list_id) {
+				array_push($filtered_tasks, $obj);
+			}
+		}
+
+		return $filtered_tasks;
+	}
 }
 

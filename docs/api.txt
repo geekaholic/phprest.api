@@ -43,12 +43,20 @@ curl -b /tmp/cookie_jar -c /tmp/cookie_jar -d 'name=Milk&description=Buy+Non+Fat
 Returns newly created task or error.
 
 
-Read Task
+Read Tasks
 ----------
 
-curl -b /tmp/cookie_jar -c /tmp/cookie_jar http://localhost/todo.api/index.php/list/read
+curl -b /tmp/cookie_jar -c /tmp/cookie_jar http://localhost/todo.api/index.php/task/read
 
 Returns all tasks as an array or an empty task list.
+
+
+Read Tasks by List
+------------------
+
+curl -b /tmp/cookie_jar -c /tmp/cookie_jar -d 'list_id=1367352304' http://localhost/todo.api/index.php/task/read
+
+Returns all tasks which belong to a list or empty task list.
 
 
 Update Task
