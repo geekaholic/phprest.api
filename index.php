@@ -21,6 +21,9 @@ if (file_exists("$inc_file")) {
 	include($inc_file);
 }
 
+// Prevent caching
+session_cache_limiter('nocache');
+
 // Call controller / action
 $class = ucfirst($controller) . 'Controller';
 $class_action = $action . 'Action';
