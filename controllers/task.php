@@ -87,8 +87,8 @@ Class TaskController extends Controller {
 			return false;
 		}
 
-		// Check if list_id exists
-		if (!$this->exists_list($data['list_id'])) {
+		// Check if list_id exists if we're modifying it
+		if ($data['list_id'] && !$this->exists_list($data['list_id'])) {
 			$this->print_error('Invalid List');
 			return false;
 		}
