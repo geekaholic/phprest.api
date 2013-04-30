@@ -5,6 +5,9 @@
 // Create FooController class in controllers/foo.php
 // with function barAction()
 
+// Author: Bud Siddhisena <bud@geekaholic.org>
+// License: http://www.wtfpl.net/txt/copying/
+
 list($controller, $action) = preg_split('!/!', preg_replace('!.*index.php[^a-z]*!', '', $_SERVER['PHP_SELF']));
 
 // set default controller / action
