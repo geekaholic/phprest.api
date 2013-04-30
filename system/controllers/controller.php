@@ -36,4 +36,9 @@ class Controller {
 		$input = htmlspecialchars($input);
 		return $input;
 	}
+
+	// Utility function to return error
+	function print_error($err) {
+		echo "{\"error\": \"$err\"}";
+	}
 }

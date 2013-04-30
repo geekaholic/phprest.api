@@ -28,13 +28,17 @@ Class ListController extends Controller {
 
 	// Create list
 	function createAction() {
+
 		// Read input
-		$name = $this->sanitize($this->post('name'));
-		$due_date = $this->sanitize($this->post('due_date'));
+		$data = array (
+			'id' => time(),
+			'name' => $this->sanitize($this->post('name')),
+			'due_date' => $this->sanitize($this->post('due_date')),
+		);
 
 		// Create a new list
 		$list = new ListModel();
-		$list->set(array('id' => time(), 'name' => $name, 'due_date' => $due_date));
+		$task->set($data);
 
 		// Save list to lists array
 		array_push($this->lists, $list);
@@ -64,7 +68,7 @@ Class ListController extends Controller {
 			// Return updated
 			echo json_encode($this->lists[$idx]);
 		} else {
-			echo json_encode('false');
+			$this->print_error('List not found');
 		}
 	}
 
@@ -84,7 +88,7 @@ Class ListController extends Controller {
 			// Vacuum array for holes
 			$this->lists = array_values($this->lists);
 		} else {
-			echo json_encode('false');
+			$this->print_error('List not found');
 		}
 	}
 

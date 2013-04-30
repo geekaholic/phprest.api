@@ -28,6 +28,7 @@ Class TaskController extends Controller {
 
 	// Create task
 	function createAction() {
+
 		// Read input
 		$data = array (
 			'id' => time(),
@@ -37,6 +38,11 @@ Class TaskController extends Controller {
 			'due_date' => $this->sanitize($this->post('due_date')),
 			'completed' => false,
 			);
+
+		// Check required
+		if (!$data['name'] || !$data['list_id']) {
+			$this->print_error('Required fields name or list_id missing');
+		}
 
 		// Create a new task
 		$task = new TaskModel();
@@ -70,7 +76,7 @@ Class TaskController extends Controller {
 			// Return updated
 			echo json_encode($this->tasks[$idx]);
 		} else {
-			echo json_encode('false');
+			$this->print_error('Task not found');
 		}
 	}
 
@@ -90,7 +96,7 @@ Class TaskController extends Controller {
 			// Vacuum array for holes
 			$this->tasks = array_values($this->tasks);
 		} else {
-			echo json_encode('false');
+			$this->print_error('Task not found');
 		}
 	}
 
