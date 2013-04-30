@@ -58,7 +58,7 @@ Class TaskController extends Controller {
 		}
 
 		// Create a new task
-		$task = new TaskModel();
+		$task = TaskModel::create();
 		$task->set($data);
 
 		// Save task to tasks array
@@ -142,6 +142,29 @@ Class TaskController extends Controller {
 		} else {
 			// Perform update
 			$this->tasks[$idx]->set(array('id' => $id, 'completed' => true));
+
+			// Return updated
+			echo json_encode($this->tasks[$idx]);
+		}
+
+	}
+
+	// Set Alarm interval
+	function alarmAction() {
+		// Read input
+		$id = (int) $this->sanitize($this->post('id'));
+		$interval = (int) $this->sanitize($this->post('interval'));
+
+		$idx = $this->find($id);
+		if ($idx === false) {
+			$this->print_error('Invalid Task');
+			return false;
+		} else {
+			// Set alarm 
+			if(!$this->tasks[$idx]->set_alarm($interval)) {
+				$this->print_error('Invalid Alarm Interval');
+				return false;
+			}
 
 			// Return updated
 			echo json_encode($this->tasks[$idx]);
