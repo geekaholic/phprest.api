@@ -1,0 +1,95 @@
+TODO.api
+=======
+
+All calls use POST method for passing values and returns JSON.
+
+Create List
+-----------
+
+curl -b /tmp/cookie_jar -c /tmp/cookie_jar -d 'name=Grocery&due_date=2013-05-01+10:00'  http://localhost/todo.api/index.php/list/create
+
+Returns newly created list or error.
+
+
+Read Lists
+----------
+
+curl -b /tmp/cookie_jar -c /tmp/cookie_jar http://localhost/todo.api/index.php/list/read
+
+Returns all lists as an array or an empty list.
+
+
+Update List
+-----------
+
+curl -b /tmp/cookie_jar -c /tmp/cookie_jar -d 'id=1367351008&name=Grocery List' http://localhost/todo.api/index.php/list/update
+
+Returns updated list or error
+
+
+Delete List
+-----------
+
+curl -b /tmp/cookie_jar -c /tmp/cookie_jar -d 'id=1367351008' http://localhost/todo.api/index.php/list/delete
+
+Returns deleted list or error
+
+
+Create Task
+-----------
+
+curl -b /tmp/cookie_jar -c /tmp/cookie_jar -d 'name=Milk&description=Buy+Non+Fat+Milk&list_id=1367351008'  http://localhost/todo.api/index.php/task/create
+
+Returns newly created task or error.
+
+
+Read Task
+----------
+
+curl -b /tmp/cookie_jar -c /tmp/cookie_jar http://localhost/todo.api/index.php/list/read
+
+Returns all tasks as an array or an empty task list.
+
+
+Update Task
+-----------
+
+curl -b /tmp/cookie_jar -c /tmp/cookie_jar -d 'id=1367351008&name=Skim Milk' http://localhost/todo.api/index.php/task/update
+
+Returns updated task or error
+
+
+Delete Task
+-----------
+
+curl -b /tmp/cookie_jar -c /tmp/cookie_jar -d 'id=1367351008' http://localhost/todo.api/index.php/task/delete
+
+Returns deleted task or error
+
+
+Complete Task
+-------------
+
+curl -b /tmp/cookie_jar -c /tmp/cookie_jar -d 'id=1367351008' http://localhost/todo.api/index.php/task/complete
+
+Returns completed task or error
+
+
+Set Alarm for Task
+------------------
+
+curl -b /tmp/cookie_jar -c /tmp/cookie_jar -d 'id=1367351008&interval=30' http://localhost/todo.api/index.php/task/complete
+
+interval should be one of [15, 30, 24]
+
+Returns modified task or error
+
+
+Clone Task
+----------
+
+curl -b /tmp/cookie_jar -c /tmp/cookie_jar -d 'id=1367351008' http://localhost/todo.api/index.php/task/clone
+
+Returns cloned task or error
+
+
