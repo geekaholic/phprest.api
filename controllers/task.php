@@ -130,6 +130,25 @@ Class TaskController extends Controller {
 		}
 	}
 
+	// Complete Task
+	function completeAction() {
+		// Read input
+		$id = (int) $this->sanitize($this->post('id'));
+
+		$idx = $this->find($id);
+		if ($idx === false) {
+			$this->print_error('Invalid Task');
+			return false;
+		} else {
+			// Perform update
+			$this->tasks[$idx]->set(array('id' => $id, 'completed' => true));
+
+			// Return updated
+			echo json_encode($this->tasks[$idx]);
+		}
+
+	}
+
 	// Check if list exists and return it
 	function exists_list($id) {
 		for ($i=0; $i < count($this->lists); $i++) {
