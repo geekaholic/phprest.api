@@ -1,7 +1,10 @@
 <?php
 
-Class TaskModel extends Model {
+interface I_Task {
+	function set($data);
+}
 
+Class TaskDefaultModel extends Model implements I_Task {
 	var $id,
 		$list_id,
 		$name,
@@ -12,4 +15,23 @@ Class TaskModel extends Model {
 	function __construct() {
 		parent::__construct();
 	}
+
 }
+
+Class TaskModel {
+
+	function __construct($type = 'default') {
+		switch ($type) {
+			case 'default':
+				return new TaskDefaultModel();
+				break;
+
+			case 'email':
+				// todo: Implement me
+				break;
+
+		}
+	}
+
+}
+
