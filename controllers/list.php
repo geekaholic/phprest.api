@@ -6,9 +6,6 @@ Class ListController extends Controller {
 
 	function __construct() {
 
-		// Call base class constructor
-		parent::__construct($this->lists);
-
 		// Load list model
 		$this->load_model('list_model');
 
@@ -22,11 +19,10 @@ Class ListController extends Controller {
 		}
 
 		$this->lists = &$_SESSION['lists'];
-	}
 
-	function indexAction() {
-		// Default action is readAction
-		$this->readAction();
+		// Call base class constructor
+		parent::__construct($this->lists);
+
 	}
 
 	// Create list
@@ -50,12 +46,6 @@ Class ListController extends Controller {
 		echo json_encode($list);
 	}
 
-	// Read lists
-	function readAction() {
-
-		echo json_encode($this->lists);
-	}
-
 	// Update list
 	function updateAction() {
 		// Read input
@@ -76,7 +66,7 @@ Class ListController extends Controller {
 		}
 	}
 
-	// Delete list
+	// Delete Lists
 	function deleteAction() {
 		// Read input
 		$id = (int) $this->sanitize($this->post('id'));
@@ -95,18 +85,6 @@ Class ListController extends Controller {
 			// Vacuum array to reindex
 			$this->lists = array_values($this->lists);
 		}
-	}
-
-	// Find list from lists
-	function find($id) {
-
-		foreach ($this->lists as $idx => $obj) {
-			if ($obj->id == $id) {
-				return $idx;
-			}
-		}
-
-		return false;
 	}
 
 }

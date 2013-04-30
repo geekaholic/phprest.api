@@ -19,7 +19,6 @@ Class TaskController extends Controller {
 			$this->print_error('No lists found');
 			exit;
 		}
-
 		$this->lists = &$_SESSION['lists'];
 
 		// Restore saved task or create new
@@ -27,13 +26,10 @@ Class TaskController extends Controller {
 			// Create new session
 			$_SESSION['tasks'] = array();
 		}
-
 		$this->tasks = &$_SESSION['tasks'];
-	}
 
-	function indexAction() {
-		// Default action is readAction
-		$this->readAction();
+		// Call base class constructor
+		parent::__construct($this->tasks);
 	}
 
 	// Create task
@@ -72,12 +68,6 @@ Class TaskController extends Controller {
 		echo json_encode($task);
 	}
 
-	// Read tasks
-	function readAction() {
-
-		echo json_encode($this->tasks);
-	}
-
 	// Update task
 	function updateAction() {
 		// Read input
@@ -86,25 +76,28 @@ Class TaskController extends Controller {
 		$due_date = $this->sanitize($this->post('due_date'));
 		
 		$idx = $this->find($id);
-		if ($idx) {
+		if ($idx === false) {
+			$this->print_error('Invalid Task');
+			return false;
+		} else {
 			// Perform update
 			$this->tasks[$idx]->set(array('id' => $id, 'name' => $name, 'due_date' => $due_date));
 
 			// Return updated
 			echo json_encode($this->tasks[$idx]);
-		} else {
-			$this->print_error('Invalid Task');
-			return false;
 		}
 	}
 
-	// Delete task
+	// Delete Tasks
 	function deleteAction() {
 		// Read input
 		$id = (int) $this->sanitize($this->post('id'));
 
 		$idx = $this->find($id);
-		if ($idx) {
+		if ($idx === false) {
+			$this->print_error('Invalid Task');
+			return false;
+		} else {
 			// Return deleted
 			echo json_encode($this->tasks[$idx]);
 
@@ -113,20 +106,7 @@ Class TaskController extends Controller {
 
 			// Vacuum array to reindex
 			$this->tasks = array_values($this->tasks);
-		} else {
-			$this->print_error('Invalid Task');
-			return false;
 		}
-	}
-
-	// Find task from tasks
-	function find($id) {
-		for ($i=0; $i < count($this->tasks); $i++) {
-			if (isset($this->tasks[$i]) && $this->tasks[$i]->id == $id) {
-				return $i;
-			}
-		}
-		return false;
 	}
 
 	// Check if list exists and return it

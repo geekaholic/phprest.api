@@ -10,7 +10,18 @@ class Controller {
 		$this->obj_arr = &$obj_arr;
 	}
 
-	// Find list from lists
+	function indexAction() {
+		// Default action is readAction
+		$this->readAction();
+	}
+
+	// Read object
+	function readAction() {
+
+		echo json_encode($this->obj_arr);
+	}
+
+	// Find obj from obj array
 	function find($id) {
 
 		foreach ($this->obj_arr as $idx => $obj) {
