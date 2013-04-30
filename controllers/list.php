@@ -80,6 +80,9 @@ Class ListController extends Controller {
 
 			// Perform delete
 			unset($this->lists[$idx]);
+
+			// Vacuum array for holes
+			$this->lists = array_values($this->lists);
 		} else {
 			echo json_encode('false');
 		}
