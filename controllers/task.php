@@ -70,18 +70,39 @@ Class TaskController extends Controller {
 
 	// Update task
 	function updateAction() {
+
 		// Read input
-		$id = (int) $this->sanitize($this->post('id'));
-		$name = $this->sanitize($this->post('name'));
-		$due_date = $this->sanitize($this->post('due_date'));
+		$data = array (
+			'id' => (int) $this->sanitize($this->post('id')),
+			'name' => $this->sanitize($this->post('name')),
+			'list_id' => (int) $this->sanitize($this->post('list_id')),
+			'description' => $this->sanitize($this->post('description')),
+			'due_date' => $this->sanitize($this->post('due_date')),
+			'completed' => $this->sanitize($this->post('completed')),
+			);
+
+		// Check required
+		if (!$data['id']) {
+			$this->print_error('Required field id missing');
+			return false;
+		}
+
+		// Check if list_id exists
+		if (!$this->exists_list($data['list_id'])) {
+			$this->print_error('Invalid List');
+			return false;
+		}
+
+		// Sanitize completed
+		$data['completed'] =  ($data['completed']=='true') ? true : false;
 		
-		$idx = $this->find($id);
+		$idx = $this->find($data['id']);
 		if ($idx === false) {
 			$this->print_error('Invalid Task');
 			return false;
 		} else {
 			// Perform update
-			$this->tasks[$idx]->set(array('id' => $id, 'name' => $name, 'due_date' => $due_date));
+			$this->tasks[$idx]->set($data);
 
 			// Return updated
 			echo json_encode($this->tasks[$idx]);

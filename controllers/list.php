@@ -53,6 +53,12 @@ Class ListController extends Controller {
 		$name = $this->sanitize($this->post('name'));
 		$due_date = $this->sanitize($this->post('due_date'));
 		
+		// Check required
+		if (!$id) {
+			$this->print_error('Required field id missing');
+			return false;
+		}
+		
 		$idx = $this->find($id);
 		if ($idx === false) {
 			$this->print_error('Invalid List');
