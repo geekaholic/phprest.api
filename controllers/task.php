@@ -201,11 +201,12 @@ Class TaskController extends Controller {
 
 	// Check if list exists and return it
 	function exists_list($id) {
-		for ($i=0; $i < count($this->lists); $i++) {
-			if (isset($this->lists[$i]) && $this->lists[$i]->id == $id) {
-				return $i;
+		foreach ($this->lists as $idx => $obj) {
+			if ($obj->id == $id) {
+				return true;
 			}
 		}
+
 		return false;
 	}
 
