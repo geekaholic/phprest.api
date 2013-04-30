@@ -172,6 +172,33 @@ Class TaskController extends Controller {
 
 	}
 
+	// Extra : Clone task
+	function cloneAction() {
+		// Read input
+		$id = (int) $this->sanitize($this->post('id'));
+
+		$idx = $this->find($id);
+		if ($idx === false) {
+			$this->print_error('Invalid Task');
+			return false;
+		} else {
+			// Clone found array
+			$data = get_object_vars($this->tasks[$idx]);
+
+			// Create new id
+			$data['id'] = time();
+
+			$cloned_task = TaskModel::create();
+			$cloned_task->set($data);
+
+			// Save task to tasks array
+			array_push($this->tasks, $cloned_task);
+
+			// Return clone
+			echo json_encode($cloned_task);
+		}
+	}
+
 	// Check if list exists and return it
 	function exists_list($id) {
 		for ($i=0; $i < count($this->lists); $i++) {
