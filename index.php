@@ -1,7 +1,7 @@
 <?php
 
 // Simple router to load what we need
-// e.g: http://localhost/todo.api/index.php/foo/bar
+// e.g: http://localhost/phprest.api/index.php/foo/bar
 // Create FooController class in controllers/foo.php
 // with function barAction()
 

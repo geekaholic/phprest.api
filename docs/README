@@ -1,8 +1,7 @@
 README
 ======
 
-1) Copy directory to document root (eg: /var/www/html)
+1) Copy phprest.api directory to document root as todo.api (eg: /var/www/html/todo.api)
 2) Refer to api.txt
 3) Use curl of Chrome's Postman plugin to test RESTful API
-
 
