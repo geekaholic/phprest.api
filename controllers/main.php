@@ -3,24 +3,23 @@
 Class MainController extends Controller {
 
 	function __construct() {
-
 		// Load model
 		$this->load_model('hello_model');
 
-		// Call base class constructor
-		parent::__construct($this->lists);
+		// Call base constructor
+		parent::__construct();
 
 	}
 
 	// Default action
-	function indexAction() {
+	function indexAction($uri_parts) {
 
 		$hello_obj = new HelloModel();
 
 		// Prepare output 
 		$data_out = array (
 			'id' => $hello_obj->id,
-			'msg' => $hello_obj->greeting()
+			'msg' => $hello_obj->greeting() . ' ' . implode(', ', $uri_parts)
 		);
 
 		// Return data 

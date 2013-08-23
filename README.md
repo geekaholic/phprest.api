@@ -4,10 +4,33 @@ No-frills REST api framework written in PHP. Consists of Model-Controller which 
 
 ## Usage
 
-Call REST via http://localhost/phprest.api/index.php/foo/bar
+Call REST via 
+
+```
+http://localhost/phprest.api/index.php/foo/bar
+```
+
+or if you're using the provided .htaccess
+
+```
+http://localhost/phprest.api/foo/bar
+```
+
+where
+
+```
 foo = controller, bar = action
+```
 
 Create FooController class in controllers/foo.php with function barAction()
+
+Optional parameters can be passed in the URL itself
+
+```
+http://localhost/phprest.api/foo/bar/param1/param2/param3
+```
+
+Where you can access ```[param1, param2, param3]``` as an incoming array in ```function barAction($uri_parts)```
 
 ## What's included
 
