@@ -6,6 +6,11 @@ class Controller {
 	function __construct() {
 	}
 
+	// Implement default action
+	function indexAction() {
+		echo 'Please implement your own indexAction()';
+	}
+
 	// Utility function to load model
 	function load_model($model) {
 		$model_inc = 'models/' . $model . '.php';
