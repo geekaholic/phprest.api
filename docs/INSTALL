@@ -1,4 +1,4 @@
-README
+INSTALL
 ======
 
 1) Copy phprest.api directory to document root as todo.api (eg: /var/www/html/todo.api)

@@ -2,6 +2,9 @@
 
 Class MainController extends Controller {
 
+// This is the default controller with default indexAction
+// Other actions are examples and should be removed
+
 	function __construct() {
 		// Load model
 		$this->load_model('hello_model');
@@ -43,5 +46,32 @@ Class MainController extends Controller {
 		echo header('Content-type: text/xml; charset=utf-8');
 		echo $xml->asXML();
 	}
+
+	// Default action when no action specified in URI and REST verb is POST
+	function postAction() {
+		$data_out = array (
+			'msg' => 'Default postAction called',
+			'data' => $_POST
+		);
+
+		echo json_encode($data_out);
+	}
+
+	// Default action when no action specified in URI and REST verb is PUT
+	function putAction() {
+		// Since PHP doesn't have a native $_PUT the framework populates $_GET
+		$data_out = array (
+			'msg' => 'Default putAction called',
+			'data' => $_GET
+		);
+
+		echo json_encode($data_out);
+	}
+
+	// Default action when no action specified in URI and REST verb is DELETE
+	function deleteAction() {
+		echo 'Default deleteAction called';
+	}
+
 }
 

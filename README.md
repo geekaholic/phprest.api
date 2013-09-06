@@ -2,7 +2,7 @@
 
 No-frills REST api framework written in PHP. Consists of Model-Controller which can easily be extended for MVC if desired. Take a look at the sample todo list implemented as an in-memory API to help you implement your own REST API.
 
-## Usage
+## Basic Usage
 
 Call REST via 
 
@@ -31,6 +31,22 @@ http://localhost/phprest.api/foo/bar/param1/param2/param3
 ```
 
 Where you can access ```[param1, param2, param3]``` as an incoming array in ```function barAction($uri_parts)```
+
+## REST like Usage
+
+In this usage we can omit action and instead rely in REST verbs GET, POST, PUT and DELETE for CRUD like actions.
+
+```
+$ curl -X bar http://localhost/phprest.api/foo
+```
+
+where
+
+```
+foo = controller, bar = GET, POST, PUT or DELETE
+```
+
+Create FooController class in controllers/foo.php with function barAction(), where bar is in lowercase (e.g: get not GET)
 
 ## What's included
 

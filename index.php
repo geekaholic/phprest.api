@@ -19,9 +19,17 @@ $action = array_shift($uri_parts);
 require('system/models/model.php');
 require('system/controllers/controller.php');
 
-// Set default controller / action
+// Get the request verb and modify action appropriately
+$verb = strtolower($_SERVER['REQUEST_METHOD']);
+
+// PHP doesn't natively have $_PUT so we reuse $_GET and populate it
+if ($verb == 'put') {
+	parse_str(file_get_contents("php://input"), $_GET);
+}
+
+// Set default controller / action which supports REST verbs
 $controller = ($controller) ? $controller : 'main';
-$action = ($action) ? $action : 'index';
+$action = ($action) ? $action : ($verb == 'post' || $verb == 'put' || $verb == 'delete') ? $verb : 'index';
 
 // Include controller
 $inc_file = "controllers/${controller}.php";
